@@ -24,7 +24,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     // Set up injection
 
     @Override
-    @Transactional // Handles transactions for us so we don't have to start & stop it ourselves manually
     public List<Employee> findAll() {
         // Get the current hibernate session
         Session currentSession = entityManager.unwrap(Session.class);
@@ -38,5 +37,29 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         // return the results
         return employees;
+    }
+
+    @Override
+    public Employee findById(int theId) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Employee theEmployee = currentSession.get(Employee.class, theId);
+        return theEmployee;
+    }
+
+    @Override
+    public void saveEmployee(Employee theEmployee) {
+        // Get the current hibernate session
+        Session currentSession = entityManager.unwrap(Session.class);
+
+        currentSession.saveOrUpdate(theEmployee);
+    }
+
+    @Override
+    public void deleteById(int theId) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        Query<Employee> theQuery =
+                currentSession.createQuery("from Employee where id=:employeeId", Employee.class);
+        theQuery.setParameter("employeeId", theId);
+        theQuery.executeUpdate();
     }
 }

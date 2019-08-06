@@ -1,4 +1,4 @@
-package com.springboot.employees.entity;
+package com.springboot.employees.demo.entity;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ public class Employee {
     // Define fields
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column
+    @Column(name="id")
     private int id;
 
     @Column(name="first_name")
